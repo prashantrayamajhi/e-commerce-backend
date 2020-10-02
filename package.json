@@ -4,7 +4,7 @@
   "description": "backend for e-commerce website",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/prashantrayamajhi/e-commerce-backend/issues"
   },
-  "homepage": "https://github.com/prashantrayamajhi/e-commerce-backend#readme"
+  "homepage": "https://github.com/prashantrayamajhi/e-commerce-backend#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "postgres": "^1.0.2",
+    "sequelize": "^6.3.5"
+  }
 }
