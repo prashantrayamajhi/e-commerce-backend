@@ -1,0 +1,19 @@
+{
+  "name": "e-commerce-backend",
+  "version": "1.0.0",
+  "description": "backend for e-commerce website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashantrayamajhi/e-commerce-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prashantrayamajhi/e-commerce-backend/issues"
+  },
+  "homepage": "https://github.com/prashantrayamajhi/e-commerce-backend#readme"
+}
