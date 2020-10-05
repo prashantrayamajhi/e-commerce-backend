@@ -13,7 +13,6 @@ const ProductRoute = require("./routes/products.route");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.set(express.static(__dirname + "/public"));
 app.use(cors({ origin: true }));
 
 app.use("/api/products", ProductRoute);
