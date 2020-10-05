@@ -16,7 +16,7 @@ app.use(express.json());
 app.set(express.static(__dirname + "/public"));
 app.use(cors({ origin: true }));
 
-app.use("/api/product", ProductRoute);
+app.use("/api/products", ProductRoute);
 
 sequelize
   .sync()
