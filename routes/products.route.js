@@ -12,4 +12,6 @@ router.put("/:id", controller.updateById);
 
 router.patch("/:id", controller.updateById);
 
-router.delete("/delete", controller.deleteById);
+router.delete("/delete/:id", controller.deleteById);
+
+module.exports = router;

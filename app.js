@@ -4,11 +4,18 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const sequelize = require("./util/db");
 
+// api-routes
+const ProductRoute = require("./routes/products.route");
+
 app.use(express.urlencoded({ extended: false }));
-app.set(express.static(__dirname + "/public"));
+app.use(express.json());
+app.use(cors({ origin: true }));
+
+app.use("/api/products", ProductRoute);
 
 sequelize
   .sync()

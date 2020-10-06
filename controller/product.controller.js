@@ -26,6 +26,7 @@ exports.findById = (req, res, next) => {
 
 exports.save = (req, res, next) => {
   const { name, price, imgUrl, quantityInStock, description } = req.body;
+  console.log(req.body);
   Product.create({
     name,
     price,
@@ -67,7 +68,7 @@ exports.updateById = (req, res, next) => {
 };
 
 exports.deleteById = (req, res, next) => {
-  const productId = req.body.is;
+  const productId = req.params.id;
   Product.destroy({
     where: {
       id: productId,
