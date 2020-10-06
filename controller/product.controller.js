@@ -50,6 +50,9 @@ exports.updateById = (req, res, next) => {
       id,
     },
   }).then((product) => {
+    if (!product) {
+      return res.status(404).send({ message: "Product not found" });
+    }
     product
       .update({
         name,
@@ -59,7 +62,7 @@ exports.updateById = (req, res, next) => {
         description,
       })
       .then(() => {
-        res.status(202).send({ message: "Product Updated" });
+        res.status(201).send({ message: "Product Updated" });
       })
       .catch((err) => {
         console.log(err);
@@ -74,8 +77,11 @@ exports.deleteById = (req, res, next) => {
       id: productId,
     },
   })
-    .then(() => {
-      res.status(202).send({ message: "Product deleted" });
+    .then((product) => {
+      if (!product) {
+        return res.json(404).send({ message: "Product not found" });
+      }
+      res.status(201).send({ message: "Product deleted" });
     })
     .catch((err) => {
       console.log(err);
