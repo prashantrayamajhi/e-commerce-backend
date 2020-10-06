@@ -10,12 +10,14 @@ const sequelize = require("./util/db");
 
 // api-routes
 const ProductRoute = require("./routes/products.route");
+const CategoryRoute = require("./routes/category.route");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({ origin: true }));
 
 app.use("/api/products", ProductRoute);
+app.use("/api/category", CategoryRoute);
 
 sequelize
   .sync()
