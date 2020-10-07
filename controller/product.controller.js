@@ -1,4 +1,5 @@
 const Product = require("./../model/products");
+const Category = require("./../model/category");
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
@@ -25,14 +26,21 @@ exports.findById = (req, res, next) => {
 };
 
 exports.save = (req, res, next) => {
-  const { name, price, imgUrl, quantityInStock, description } = req.body;
-  console.log(req.body);
+  const {
+    name,
+    price,
+    imgUrl,
+    quantityInStock,
+    description,
+    categoryId,
+  } = req.body;
   Product.create({
     name,
     price,
     imgUrl,
     quantityInStock,
     description,
+    categoryId,
   })
     .then((product) => {
       res.json(product);
@@ -43,7 +51,14 @@ exports.save = (req, res, next) => {
 };
 
 exports.updateById = (req, res, next) => {
-  const { name, price, imgUrl, quantityInStock, description } = req.body;
+  const {
+    name,
+    price,
+    imgUrl,
+    quantityInStock,
+    description,
+    categoryId,
+  } = req.body;
   const id = req.params.id;
   Product.findOne({
     where: {
@@ -60,6 +75,7 @@ exports.updateById = (req, res, next) => {
         imgUrl,
         quantityInStock,
         description,
+        categoryId,
       })
       .then(() => {
         res.status(201).send({ message: "Product Updated" });
