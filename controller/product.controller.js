@@ -1,4 +1,5 @@
 const Product = require("./../model/products");
+const Category = require("./../model/category");
 
 exports.getProducts = (req, res, next) => {
   Product.findAll()
@@ -25,14 +26,21 @@ exports.findById = (req, res, next) => {
 };
 
 exports.save = (req, res, next) => {
-  const { name, price, imgUrl, quantityInStock, description } = req.body;
-  console.log(req.body);
+  const {
+    name,
+    price,
+    imgUrl,
+    quantityInStock,
+    description,
+    categoryId,
+  } = req.body;
   Product.create({
     name,
     price,
     imgUrl,
     quantityInStock,
     description,
+    categoryId,
   })
     .then((product) => {
       res.json(product);
@@ -43,13 +51,23 @@ exports.save = (req, res, next) => {
 };
 
 exports.updateById = (req, res, next) => {
-  const { name, price, imgUrl, quantityInStock, description } = req.body;
+  const {
+    name,
+    price,
+    imgUrl,
+    quantityInStock,
+    description,
+    categoryId,
+  } = req.body;
   const id = req.params.id;
   Product.findOne({
     where: {
       id,
     },
   }).then((product) => {
+    if (!product) {
+      return res.status(404).send({ message: "Product not found" });
+    }
     product
       .update({
         name,
@@ -57,9 +75,10 @@ exports.updateById = (req, res, next) => {
         imgUrl,
         quantityInStock,
         description,
+        categoryId,
       })
       .then(() => {
-        res.status(202).send({ message: "Product Updated" });
+        res.status(201).send({ message: "Product Updated" });
       })
       .catch((err) => {
         console.log(err);
@@ -74,8 +93,11 @@ exports.deleteById = (req, res, next) => {
       id: productId,
     },
   })
-    .then(() => {
-      res.status(202).send({ message: "Product deleted" });
+    .then((product) => {
+      if (!product) {
+        return res.json(404).send({ message: "Product not found" });
+      }
+      res.status(201).send({ message: "Product deleted" });
     })
     .catch((err) => {
       console.log(err);
