@@ -8,6 +8,10 @@ const cors = require("cors");
 
 const sequelize = require("./util/db");
 
+// models
+const Product = require("./model/products");
+const Category = require("./model/category");
+
 // api-routes
 const ProductRoute = require("./routes/products.route");
 const CategoryRoute = require("./routes/category.route");
@@ -18,6 +22,8 @@ app.use(cors({ origin: true }));
 
 app.use("/api/products", ProductRoute);
 app.use("/api/category", CategoryRoute);
+
+Product.belongsTo(Category);
 
 sequelize
   .sync()
