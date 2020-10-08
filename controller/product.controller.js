@@ -3,27 +3,87 @@ const Category = require("./../model/category");
 const Review = require("./../model/reviews");
 
 exports.getProducts = (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = 13;
+  let totalProducts;
+
   const categoryId = req.query.categoryId;
+
   if (categoryId) {
-    Product.findAll({ where: { categoryId } })
-      .then((products) => {
-        if (!products) {
-          return res.status(404).send({ message: "Products not found" });
-        }
-        res.status(200).json(products);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Category.findByPk(categoryId).then((category) => {
+      if (!category) {
+        return res.status(404).send({ message: "Products not found" });
+      }
+      Product.findAll({ where: { categoryId } })
+        .then((products) => {
+          totalProducts = products.length;
+          return Product.findAll({
+            where: {
+              categoryId,
+            },
+            offSet: (currentPage - 1) * perPage,
+            limit: perPage,
+          });
+        })
+        .then((products) => {
+          res.status(200).json({ products, totalProducts });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
   } else {
     Product.findAll()
       .then((products) => {
-        res.status(200).json(products);
+        totalProducts = products.length;
+        return Product.findAll({
+          offSet: (currentPage - 1) * perPage,
+          limit: perPage,
+        });
+      })
+      .then((products) => {
+        res.status(200).json({ products, totalProducts });
       })
       .catch((err) => {
         console.log(err);
       });
   }
+  // Product.findAll()
+  //   .then((products) => {
+
+  //     totalProducts = products.length;
+  //     return Product.findAll({
+  //       offSet: (currentPage - 1) * perPage,
+  //       limit: perPage,
+  //     });
+  //   })
+  //   .then((products) => {
+  //     res.status(200).json({ products, totalProducts });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+
+  // if (categoryId) {
+  //   Product.findAll({ where: { categoryId } })
+  //     .then((products) => {
+  //       if (!products) {
+  //         return res.status(404).send({ message: "Products not found" });
+  //       }
+  //       res.status(200).json(products);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // } else {
+  // Product.findAll()
+  //   .then((products) => {
+  //     res.status(200).json(products);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // }
 };
 
 exports.findById = (req, res, next) => {
