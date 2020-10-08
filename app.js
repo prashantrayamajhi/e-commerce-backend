@@ -23,16 +23,20 @@ app.use(express.json());
 app.use(cors({ origin: true }));
 
 app.use("/api/products", ProductRoute);
-app.use("/api/category", CategoryRoute);
+app.use("/api/categories", CategoryRoute);
 app.use("/api/reviews", ReviewRoute);
 
 Product.belongsTo(Category);
 Product.hasMany(Review);
 
 sequelize
-  .sync()
+  .sync(
+    {
+      //force: true
+    }
+  )
   .then(() => {
-    app.listen(8000, console.log("Listening on port 8000"));
+    app.listen(8080, console.log("Listening on port 8080"));
   })
   .catch((err) => {
     console.log(err);
