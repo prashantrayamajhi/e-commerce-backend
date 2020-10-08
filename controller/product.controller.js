@@ -26,21 +26,6 @@ exports.getProducts = (req, res, next) => {
   }
 };
 
-exports.findByCategoryId = (req, res, next) => {
-  const id = req.query.id;
-  console.log(id);
-  Product.findAll({ where: { categoryId: id } })
-    .then((products) => {
-      if (!products) {
-        return res.status(404).send({ message: "Products not found" });
-      }
-      res.status(200).json(products);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 exports.findById = (req, res, next) => {
   const productId = req.params.id;
   Product.findOne({ where: { id: productId }, include: Review })
