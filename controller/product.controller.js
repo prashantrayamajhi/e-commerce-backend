@@ -1,26 +1,39 @@
 const Product = require("./../model/products");
 const Category = require("./../model/category");
-const Review = require("./../model/reviews")
+const Review = require("./../model/reviews");
 
 exports.getProducts = (req, res, next) => {
-  Product.findAll()
-    .then((products) => {
-      res.status(200).json(products);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  const categoryId = req.query.categoryId;
+  if (categoryId) {
+    Product.findAll({ where: { categoryId } })
+      .then((products) => {
+        if (!products) {
+          return res.status(404).send({ message: "Products not found" });
+        }
+        res.status(200).json(products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    Product.findAll()
+      .then((products) => {
+        res.status(200).json(products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 };
 
 exports.findById = (req, res, next) => {
-  console.log('called')
   const productId = req.params.id;
   Product.findOne({ where: { id: productId }, include: Review })
     .then((product) => {
       if (!product) {
         return res.status(404).send({ message: "Product not found" });
       }
-      console.log(product)
+      console.log(product);
       res.status(200).json(product);
     })
     .catch((err) => {
