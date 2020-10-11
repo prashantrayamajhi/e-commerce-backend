@@ -5,8 +5,29 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 const sequelize = require("./util/db");
+
+app.use(cookieParser());
+
+// session/
+app.use(
+  session({
+    key: "user_sid",
+    secret: "omaewamoushinderu789",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use((req, res, next) => {
+  if (req.cookies.user_sid && !req.session.user) {
+    res.clearCookie("user_sid");
+  }
+  next();
+});
 
 // models
 const Product = require("./model/products");
